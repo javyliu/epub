@@ -1,7 +1,7 @@
 <view class="container">
   <text class="title">{{ title }}</text>
   <view class="info">
-    <image src="{{userInfo.avatarUrl}}"/>
-    <text>{{ userInfo.nickName }}</text>
+    <image src="{{userInfo.image}}"/>
+    <text>{{ userInfo.user_name }}</text>
   </view>
 </view>

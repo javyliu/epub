@@ -51,11 +51,13 @@ $ npm install
 
 ### 开发阶段
 
-执行如下命令
+执行如下命令, 增加了deploy任务，用于在linux机器上进行开发，监听dist文件夹变化，自动把文件更新到指定机器。
+
+使用案例：xshell连到linux终端进行开发，在window系统上安装了小程序开发工具，开发工具自动监听文件变化,即时看到效果。
 
 ```bash
 # 启动监视
-$ npm run watch
+$ npm run watch 或直接 gulp
 ```
 
 通过`微信Web开放者工具`打开项目根目录下`dist`文件夹，预览~

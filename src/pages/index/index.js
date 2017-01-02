@@ -17,7 +17,10 @@ Page({
     console.log(' ---------- onLoad ----------')
     // console.dir(app.data)
     app.getUserInfo()
-      .then(info => this.setData({ userInfo: info }))
+      .then((info) => {
+        console.log("调用后", info)
+        this.setData({ userInfo: info })
+      })
       .catch(console.info)
   },
   /**

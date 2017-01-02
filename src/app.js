@@ -6,6 +6,7 @@
  */
 const wechat = require('./utils/wechat')
 const Promise = require('./utils/bluebird')
+const ApiPath = 'https://api.pipgame.com/api/v1/'
 
 App({
   /**
@@ -13,8 +14,8 @@ App({
    * 可以定义任何成员，用于在整个应用中共享
    */
   data: {
-    name: 'WeApp Boilerplate',
-    version: '0.1.0',
+    name: 'generate epub book',
+    version: '0.1.3',
     userInfo: null
   },
 
@@ -28,9 +29,37 @@ App({
   getUserInfo () {
     return new Promise((resolve, reject) => {
       if (this.data.userInfo) return reject(this.data.userInfo)
+      let code = ""
       wechat.login()
-        .then(() => wechat.getUserInfo())
-        .then(res => res.userInfo)
+        .then((res) => {
+          // 这里的返回的code 及 状态
+          console.log(res)
+          code = res.code
+          return wechat.getUserInfo()
+        })
+        .then((u_info) => {
+          console.log(u_info)
+          // api 登录
+          return new Promise((resolve, reject) => {
+            wx.request({
+              url: 'https://api.pipgame.com/api/v1/user/wlogin',
+              header: {
+                'content-type': 'application/json'
+              },
+              data: {
+                code: code,
+                iv: u_info.iv,
+                encrypted_data: u_info.encryptedData
+              },
+              success: resolve,
+              fail: reject
+            })
+          })
+        })
+        .then((res) => {
+          console.log("api 返回：",res)
+          return res.data
+        })
         .then(info => (this.data.userInfo = info))
         .then(info => resolve(info))
         .catch(error => console.error('failed to get user info, error: ' + error))

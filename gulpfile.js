@@ -62,10 +62,10 @@ gulp.task('lint', () => {
  */
 gulp.task('compile:js', () => {
   return gulp.src(['src/**/*.js'])
-    .pipe($.sourcemaps.init())
+    .pipe($.if(!isProduction(), $.sourcemaps.init()))
     .pipe($.babel())
-    .pipe($.if(isProduction, $.uglify()))
-    .pipe($.sourcemaps.write('.'))
+    .pipe($.if(isProduction(), $.uglify()))
+    .pipe($.if(!isProduction(), $.sourcemaps.write('.')))
     .pipe(gulp.dest('dist'))
 })
 
@@ -74,8 +74,8 @@ gulp.task('compile:js', () => {
  */
 gulp.task('compile:xml', () => {
   return gulp.src(['src/**/*.xml'])
-    .pipe($.sourcemaps.init())
-    .pipe($.if(isProduction, $.htmlmin({
+    .pipe($.if(!isProduction(), $.sourcemaps.init()))
+    .pipe($.if(isProduction(), $.htmlmin({
       collapseWhitespace: true,
       // collapseBooleanAttributes: true,
       // removeAttributeQuotes: true,
@@ -86,7 +86,7 @@ gulp.task('compile:xml', () => {
       removeStyleLinkTypeAttributes: true
     })))
     .pipe($.rename({ extname: '.wxml' }))
-    .pipe($.sourcemaps.write('.'))
+    .pipe($.if(!isProduction(), $.sourcemaps.write('.')))
     .pipe(gulp.dest('dist'))
 })
 
@@ -95,11 +95,11 @@ gulp.task('compile:xml', () => {
  */
 gulp.task('compile:less', () => {
   return gulp.src(['src/**/*.less'])
-    .pipe($.sourcemaps.init())
+    .pipe($.if(!isProduction(), $.sourcemaps.init()))
     .pipe($.less())
-    .pipe($.if(isProduction, $.cssnano({ compatibility: '*' })))
+    .pipe($.if(isProduction(), $.cssnano({ compatibility: '*' })))
     .pipe($.rename({ extname: '.wxss' }))
-    .pipe($.sourcemaps.write('.'))
+    .pipe($.if(!isProduction(), $.sourcemaps.write('.')))
     .pipe(gulp.dest('dist'))
 })
 
@@ -108,9 +108,9 @@ gulp.task('compile:less', () => {
  */
 gulp.task('compile:json', () => {
   return gulp.src(['src/**/*.json'])
-    .pipe($.sourcemaps.init())
-    .pipe($.jsonminify())
-    .pipe($.sourcemaps.write('.'))
+    .pipe($.if(!isProduction(), $.sourcemaps.init()))
+    .pipe($.if(!isProduction(), $.jsonminify()))
+    .pipe($.if(!isProduction(), $.sourcemaps.write('.')))
     .pipe(gulp.dest('dist'))
 })
 
@@ -208,7 +208,7 @@ gulp.task('deploy', () => {
     .pipe(rsync({
       root: 'dist',
       hostname: 'qmliu@192.168.30.244',
-      destination: '/mnt/e/web_apps/weapp_base/',
+      destination: '/mnt/e/web_apps/epub/',
       archive: true,
       silent: true,
       //  username: 'oswap',
