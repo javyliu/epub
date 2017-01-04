@@ -1,7 +1,23 @@
 <view class="container">
-  <text class="title">{{ title }}</text>
-  <view class="info">
-    <image src="{{userInfo.image}}"/>
-    <text>{{ userInfo.user_name }}</text>
+
+  <view class='section'>
+    <text class='des'>网页看书广告太多，把它们做成Epub电子书在专门的App中看吧！</text>
+  </view>
+  <form bindsubmit="create_epub">
+    <view class="section">
+      <input name="url" placeholder="输入书目录地址" />
+    </view>
+    <view class="section">
+      <button type='primary' formType='submit' size='default' disabled="{{disabled}}" loading="{{loading}}" > 创建电子书 </button>
+    </view>
+  </form>
+  <view class='section'>
+    <text class="title">使用说明：</text>
+    <text class='des'>
+      通过网页书目创建epub电子书，电子书生成后自动发送至您注册时提供的邮箱，请使用以下书源地址：
+    </text>
+    <text wx:for="{{book_sites}}" wx:key="item.id" class='des'>
+      {{item.name}}: {{item.host}}</text>
+
   </view>
 </view>

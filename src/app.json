@@ -4,7 +4,9 @@
   // https://mp.weixin.qq.com/debug/wxadoc/dev/framework/config.html#pages
   "pages": [
     "pages/index/index",
-    "pages/demo/demo"
+    "pages/demo/demo",
+    "pages/profile/profile",
+    "pages/fill_mail/fill_mail"
     // Dont remove this comment
   ],
   // Window configuration
@@ -18,7 +20,7 @@
     "navigationBarTextStyle": "black",
     // 类型：String；默认值：无
     // 导航栏标题文字内容
-    "navigationBarTitleText": "WeApp Boilerplate",
+    "navigationBarTitleText": "Epub",
     // 类型：HexColor；默认值：#ffffff
     // 窗口的背景色
     "backgroundColor": "#000000",
@@ -39,7 +41,7 @@
     "backgroundColor": "#f5f5f5",
     "list": [
       {
-        "text": "HOME",
+        "text": "首页",
         "pagePath": "pages/index/index",
         "iconPath": "images/icon_component.png",
         "selectedIconPath": "images/icon_component_HL.png"
@@ -47,6 +49,12 @@
       {
         "text": "DEMO",
         "pagePath": "pages/demo/demo",
+        "iconPath": "images/icon_API.png",
+        "selectedIconPath": "images/icon_API_HL.png"
+      },
+      {
+        "text": "我",
+        "pagePath": "pages/profile/profile",
         "iconPath": "images/icon_API.png",
         "selectedIconPath": "images/icon_API_HL.png"
       }

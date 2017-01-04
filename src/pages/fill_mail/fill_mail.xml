@@ -1,0 +1,10 @@
+<view class="container">
+  <form bindsubmit="form_submit">
+    <view class="section">
+      <input name="email" placeholder="请输入邮箱" value="{{userInfo.email}}" />
+    </view>
+    <view class="section">
+      <button formType="submit" type='primary'>提 交</button>
+    </view>
+  </form>
+</view>

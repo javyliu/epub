@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="info w100">
+    <image src="{{userInfo.image}}"/>
+    <view class='text-center'>
+      <text>{{ userInfo.user_name }}</text>
+    </view>
+  </view>
+  <view class='align-left w100 pd25'>
+    <text>我的电子书</text>
+    <view class="line"></view>
+  </view>
+</view>

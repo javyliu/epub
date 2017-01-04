@@ -6,7 +6,6 @@
  */
 const wechat = require('./utils/wechat')
 const Promise = require('./utils/bluebird')
-const ApiPath = 'https://api.pipgame.com/api/v1/'
 
 App({
   /**
@@ -28,8 +27,8 @@ App({
    */
   getUserInfo () {
     return new Promise((resolve, reject) => {
-      if (this.data.userInfo) return reject(this.data.userInfo)
-      let code = ""
+      if (this.data.userInfo) return resolve(this.data.userInfo)
+      let code = ''
       wechat.login()
         .then((res) => {
           // 这里的返回的code 及 状态
@@ -38,30 +37,28 @@ App({
           return wechat.getUserInfo()
         })
         .then((u_info) => {
-          console.log(u_info)
+          //console.log(u_info)
           // api 登录
-          return new Promise((resolve, reject) => {
-            wx.request({
-              url: 'https://api.pipgame.com/api/v1/user/wlogin',
-              header: {
-                'content-type': 'application/json'
-              },
-              data: {
-                code: code,
-                iv: u_info.iv,
-                encrypted_data: u_info.encryptedData
-              },
-              success: resolve,
-              fail: reject
-            })
+          return wechat.fetchApi('user/wlogin',{
+            code: code,
+            iv: u_info.iv,
+            encrypted_data: u_info.encryptedData
           })
         })
         .then((res) => {
-          console.log("api 返回：",res)
+          //console.log("api 返回：",res)
+          this.data.userInfo = res.data
+          resolve(res.data)
           return res.data
         })
-        .then(info => (this.data.userInfo = info))
-        .then(info => resolve(info))
+        .then((data) => {
+          if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email)) {
+            wx.navigateTo({
+              url: '/pages/fill_mail/fill_mail'
+            })
+          }
+          return data
+        })
         .catch(error => console.error('failed to get user info, error: ' + error))
     })
   },
